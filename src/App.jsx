@@ -1,6 +1,7 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Index from "./pages/Index.jsx";
 import Events from "./pages/Events.jsx";
+import EventDetails from "./pages/EventDetails.jsx";
 import Navbar from "./components/Navbar.jsx";
 
 function App() {
@@ -10,6 +11,7 @@ function App() {
       <Routes>
         <Route exact path="/" element={<Index />} />
       <Route exact path="/events" element={<Events />} />
+      <Route exact path="/events/:id" element={<EventDetails />} />
       </Routes>
     </Router>
   );

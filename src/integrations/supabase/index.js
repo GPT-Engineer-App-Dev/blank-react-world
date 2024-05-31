@@ -52,6 +52,11 @@ export const useEvents = () => useQuery({
     queryFn: () => fromSupabase(supabase.from('events').select('*')),
 });
 
+export const useEvent = (id) => useQuery({
+    queryKey: ['event', id],
+    queryFn: () => fromSupabase(supabase.from('events').select('*').eq('id', id).single()),
+});
+
 export const useAddEvent = () => {
     const queryClient = useQueryClient();
     return useMutation({
@@ -83,9 +88,9 @@ export const useDeleteEvent = () => {
 };
 
 // Hooks for Comments
-export const useComments = () => useQuery({
-    queryKey: ['comments'],
-    queryFn: () => fromSupabase(supabase.from('comments').select('*')),
+export const useComments = (eventId) => useQuery({
+    queryKey: ['comments', eventId],
+    queryFn: () => fromSupabase(supabase.from('comments').select('*').eq('event_id', eventId)),
 });
 
 export const useAddComment = () => {
