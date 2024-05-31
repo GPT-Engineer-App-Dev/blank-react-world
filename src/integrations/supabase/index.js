@@ -87,6 +87,26 @@ export const useDeleteEvent = () => {
     });
 };
 
+export const usePinEvent = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (eventId) => fromSupabase(supabase.from('events').update({ is_pinned: true }).eq('id', eventId)),
+        onSuccess: () => {
+            queryClient.invalidateQueries('events');
+        },
+    });
+};
+
+export const useUnpinEvent = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (eventId) => fromSupabase(supabase.from('events').update({ is_pinned: false }).eq('id', eventId)),
+        onSuccess: () => {
+            queryClient.invalidateQueries('events');
+        },
+    });
+};
+
 // Hooks for Comments
 export const useComments = (eventId) => useQuery({
     queryKey: ['comments', eventId],
