@@ -14,6 +14,9 @@ const Navbar = () => {
           <Link as={NavLink} to="/events" px={2} py={1} rounded={"md"} _hover={{ textDecoration: "none", bg: useColorModeValue("gray.200", "gray.700") }}>
             Events
           </Link>
+          <Link as={NavLink} to="/venues" px={2} py={1} rounded={"md"} _hover={{ textDecoration: "none", bg: useColorModeValue("gray.200", "gray.700") }}>
+            Venues
+          </Link>
         </Box>
         <Spacer />
       </Flex>
