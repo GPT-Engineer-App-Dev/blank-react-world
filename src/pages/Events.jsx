@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { Box, Button, Container, Flex, FormControl, FormLabel, Input, Text, VStack } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import { useEvents, useAddEvent, useUpdateEvent, useDeleteEvent } from "../integrations/supabase";
+import { useEvents, useAddEvent, useUpdateEvent, useDeleteEvent, usePinEvent, useUnpinEvent } from "../integrations/supabase";
 
 const Events = () => {
   const { data: events, isLoading, isError } = useEvents();
   const addEvent = useAddEvent();
   const updateEvent = useUpdateEvent();
   const deleteEvent = useDeleteEvent();
+  const pinEvent = usePinEvent();
+  const unpinEvent = useUnpinEvent();
 
   const [newEvent, setNewEvent] = useState({ name: "", date: "", description: "", venue_id: "" });
   const [editingEvent, setEditingEvent] = useState(null);
@@ -29,6 +31,14 @@ const Events = () => {
 
   const handleDeleteEvent = (id) => {
     deleteEvent.mutate(id);
+  };
+
+  const handlePinEvent = (id) => {
+    pinEvent.mutate(id);
+  };
+
+  const handleUnpinEvent = (id) => {
+    unpinEvent.mutate(id);
   };
 
   if (isLoading) return <Text>Loading...</Text>;
@@ -58,7 +68,7 @@ const Events = () => {
         </Box>
 
         {events.map((event) => (
-          <Box key={event.id} w="100%" p={4} borderWidth={1} borderRadius="lg">
+          <Box key={event.id} w="100%" p={4} borderWidth={1} borderRadius="lg" bg={event.is_pinned ? "yellow.100" : "white"}>
             {editingEvent?.id === event.id ? (
               <>
                 <FormControl>
@@ -87,7 +97,12 @@ const Events = () => {
                 <Text>Venue ID: {event.venue_id}</Text>
                 <Flex mt={2}>
                   <Button mr={2} onClick={() => setEditingEvent(event)}>Edit</Button>
-                  <Button onClick={() => handleDeleteEvent(event.id)}>Delete</Button>
+                  <Button mr={2} onClick={() => handleDeleteEvent(event.id)}>Delete</Button>
+                  {event.is_pinned ? (
+                    <Button onClick={() => handleUnpinEvent(event.id)}>Unpin</Button>
+                  ) : (
+                    <Button onClick={() => handlePinEvent(event.id)}>Pin</Button>
+                  )}
                 </Flex>
                 <Link to={`/events/${event.id}`}>
                   <Button mt={2}>View Details</Button>
