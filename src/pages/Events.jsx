@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Box, Button, Container, Flex, FormControl, FormLabel, Input, Text, VStack } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 import { useEvents, useAddEvent, useUpdateEvent, useDeleteEvent } from "../integrations/supabase";
 
 const Events = () => {
@@ -88,6 +89,9 @@ const Events = () => {
                   <Button mr={2} onClick={() => setEditingEvent(event)}>Edit</Button>
                   <Button onClick={() => handleDeleteEvent(event.id)}>Delete</Button>
                 </Flex>
+                <Link to={`/events/${event.id}`}>
+                  <Button mt={2}>View Details</Button>
+                </Link>
               </>
             )}
           </Box>
